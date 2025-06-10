@@ -1,15 +1,18 @@
 from django.db import models
-import qrcode
+
 from io import BytesIO
 from django.core.files import File
+
 
 # Create your models here.
 class Material(models.Model):
     name = models.CharField(max_length=100, blank=False, null=False)
     reference = models.CharField(max_length=50, unique=True)
     category = models.CharField(max_length=50, blank=False, null=False)
-    stat = models.BooleanField(default=True)  # True for available, False for unavailable
-    repere =models.BooleanField(default=False)  # True for repere, False for non-repere
+    stat = models.BooleanField(
+        default=True
+    )  # True for available, False for unavailable
+    repere = models.BooleanField(default=False)  # True for repere, False for non-repere
 
     def __str__(self):
         return self.name
