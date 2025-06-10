@@ -207,26 +207,27 @@ def delete_admin(request, id):
         return HttpResponse(f"Erreur lors de la suppression : {str(e)}", status=500)
 
 
+
 @login_required
 def recherche(request):
-    query = request.GET.get('q', '')
-    if query:
-        materials = Material.objects.filter(
-            Q(name__icontains=query) |
-            Q(reference__icontains=query) |
-            Q(category__icontains=query)
-        )
-    else:
-        materials = Material.objects.all()
-    return render(request, 'base.html', {
-        'materials': materials,
-        'query': query
-    })
+  query = request.GET.get('q', '')
+  materiels = Material.objects.all()
+  if query:
+    materiels = materiels.filter(
+      Q(name__icontains=query) |
+      Q(reference__icontains=query) |
+      Q(category__icontains=query)
+    )
+  return render(request, 'base.html', {
+    'materiels': materiels,
+    'request': request,  # Pour {{ request.GET.q }} dans le template
+  })
 
 
 @login_required
 def recherche_admin(request):
     query = request.GET.get('q', '')
+    materiels = Material.objects.all()
     if query:
         materiels = Material.objects.filter(
             Q(name__icontains=query) |

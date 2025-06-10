@@ -46,39 +46,432 @@
   <body
     class="bg-gradient-to-br from-gray-100 to-blue-100 font-serif min-h-screen"
   >
-    <nav class="bg-blue-950 shadow-lg border-b border-gray-200">
+
+  {% comment %} NAVBAR {% endcomment %}
+
+
+    <nav class="bg-blue-950 text-white shadow-lg">
       <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex flex-wrap items-center justify-between py-3">
-          <!-- Logo -->
-          <div class="flex items-center space-x-2">
+      <div class="flex justify-between items-center py-4">
+        <!-- Logo -->
+        <div class="flex items-center space-x-2">
+        <svg
+          class="w-8 h-8 text-blue-400"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+        >
+          <circle cx="12" cy="12" r="10" />
+          <path
+          d="M8 12l2 2 4-4"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          />
+        </svg>
+        <span class="font-bold text-xl">Admin</span>
+        </div>
+
+        <!-- Hamburger button (mobile) -->
+        <div class="md:hidden">
+        <button
+          id="nav-toggle"
+          class="focus:outline-none"
+          aria-label="Ouvrir le menu"
+        >
+          <svg
+          class="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M4 6h16M4 12h16M4 18h16"
+          />
+          </svg>
+        </button>
+        </div>
+
+        <!-- Menu items (desktop) -->
+        <div id="nav-menu" class="hidden md:flex items-center space-x-6">
+        <a
+          href="#"
+          id="btn-materiels"
+          class="hover:text-blue-300 px-3 py-2 rounded transition text-sm"
+          >Matériels</a
+        >
+        <a
+          href="#"
+          id="btn-utilisateurs"
+          class="hover:text-blue-300 px-3 py-2 rounded transition text-sm"
+          >Utilisateurs</a
+        >
+        <!-- Dropdown utilisateur -->
+        <div class="relative group">
+          <button
+          tabindex="0"
+          class="flex items-center focus:outline-none focus:ring-2 focus:ring-blue-400 rounded transition"
+          aria-haspopup="true"
+          aria-expanded="false"
+          id="user-menu-button"
+          type="button"
+          >
+          <span class="relative inline-block">
             <svg
-              class="h-8 w-8 text-blue-600"
+            class="h-8 w-8 rounded-full bg-blue-100 text-blue-600 p-1"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            >
+            <circle cx="12" cy="8" r="4" />
+            <path
+              d="M4 20c0-2.21 3.582-4 8-4s8 1.79 8 4"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            </svg>
+            <!-- Affichage du statut en ligne de l'utilisateur -->
+            <!-- Le rond vert indique que l'utilisateur est en ligne -->
+            <span
+            class="absolute bottom-0 right-0 block h-2 w-2 rounded-full ring-2 ring-white bg-green-400" #AFFICHAGE STATU EN LIGNE
+            ></span> 
+          </span>
+          <span class="ml-2 font-semibold text-sm truncate max-w-[120px]">
+            {{ request.user.get_full_name|default:request.user.username }}
+          </span>
+          <svg
+            class="ml-1 h-4 w-4 text-gray-300"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+          >
+            <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M19 9l-7 7-7-7"
+            />
+          </svg>
+          </button>
+          <div
+          class="absolute right-0 mt-2 w-48 sm:w-56 bg-white rounded-md shadow-lg py-2 opacity-0 invisible group-focus-within:opacity-100 group-focus-within:visible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50"
+          style="min-width: 12rem"
+          >
+          <a
+            href="#"
+            class="flex items-center gap-2 px-4 py-2 text-blue-950 hover:bg-blue-50 text-sm transition"
+          >
+            <svg
+            class="w-4 h-4 text-blue-400"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            >
+            <circle cx="12" cy="8" r="4" />
+            <path
+              d="M4 20c0-2.21 3.582-4 8-4s8 1.79 8 4"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            </svg>
+            Mon profil
+          </a>
+          <a
+            href="{% url 'password_change' %}"
+            class="flex items-center gap-2 px-4 py-2 text-blue-950 hover:bg-blue-50 text-sm transition"
+          >
+            <svg
+            class="w-4 h-4 text-yellow-400"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            >
+            <path
+              d="M12 15v2m0 4v-2m6-6V7a6 6 0 10-12 0v6a2 2 0 002 2h8a2 2 0 002-2z"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            </svg>
+            Changer mot de passe
+          </a>
+          <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button
+            type="submit"
+            class="w-full flex items-center gap-2 px-4 py-2 text-red-600 hover:bg-red-50 text-sm transition"
+            >
+            <svg
+              class="w-4 h-4 text-red-400"
               fill="none"
               stroke="currentColor"
               stroke-width="2"
               viewBox="0 0 24 24"
             >
-              <circle cx="12" cy="12" r="10" />
               <path
-                d="M8 12l2 2 4-4"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H7a2 2 0 01-2-2V7a2 2 0 012-2h4a2 2 0 012 2v1"
+              stroke-linecap="round"
+              stroke-linejoin="round"
               />
             </svg>
-            <span class="text-xl font-bold text-white tracking-wide"
-              >Admin</span
-            >
+            Déconnexion
+            </button>
+          </form>
           </div>
+        </div>
+        </div>
+      </div>
 
-          <!-- Hamburger (mobile) -->
-          <div class="md:hidden">
-            <button
-              id="nav-toggle"
-              class="text-white"
-              aria-label="Ouvrir le menu"
+      <!-- Menu items (mobile) -->
+      <div
+        id="mobile-menu"
+        class="md:hidden hidden flex-col space-y-2 pb-4"
+      >
+        <a
+        href="#"
+        id="btn-materiels-mobile"
+        class="block px-2 py-2 hover:bg-blue-800 rounded text-white text-center"
+        >Matériels</a
+        >
+        <a
+        href="#"
+        id="btn-utilisateurs-mobile"
+        class="block px-2 py-2 hover:bg-blue-800 rounded text-white text-center"
+        >Utilisateurs</a
+        >
+        <div class="border-t border-blue-800 my-2"></div>
+        <a
+        href="#"
+        class="flex items-center gap-2 px-4 py-2 text-blue-300 hover:bg-blue-600 text-sm transition"
+        >
+        <svg
+          class="w-4 h-4 text-blue-400"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+        >
+          <circle cx="12" cy="8" r="4" />
+          <path
+          d="M4 20c0-2.21 3.582-4 8-4s8 1.79 8 4"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          />
+        </svg>
+        Mon profil
+        </a>
+        <a
+        href="{% url 'password_change' %}"
+        class="flex items-center gap-2 px-4 py-2 text-blue-300 hover:bg-blue-600 text-sm transition"
+        >
+        <svg
+          class="w-4 h-4 text-yellow-400"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+        >
+          <path
+          d="M12 15v2m0 4v-2m6-6V7a6 6 0 10-12 0v6a2 2 0 002 2h8a2 2 0 002-2z"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          />
+        </svg>
+        Changer mot de passe
+        </a>
+        <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button
+          type="submit"
+          class="w-full flex items-center gap-2 px-4 py-2 text-red-600 hover:bg-blue-600 text-sm transition"
+        >
+          <svg
+          class="w-4 h-4 text-red-400"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          >
+          <path
+            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H7a2 2 0 01-2-2V7a2 2 0 012-2h4a2 2 0 012 2v1"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          </svg>
+          Déconnexion
+        </button>
+        </form>
+      </div>
+      </div>
+      <!-- Script -->
+      <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const navToggle = document.getElementById("nav-toggle");
+        const mobileMenu = document.getElementById("mobile-menu");
+        navToggle.addEventListener("click", () => {
+        if (mobileMenu.classList.contains("hidden")) {
+          mobileMenu.classList.remove("hidden");
+          mobileMenu.classList.add("flex");
+        } else {
+          mobileMenu.classList.add("hidden");
+          mobileMenu.classList.remove("flex");
+        }
+        });
+
+        const sectionUtilisateurs = document.getElementById(
+        "section-utilisateurs"
+        );
+        const sectionMateriels = document.getElementById("section-materiels");
+
+        const btns = [
+        {
+          button: document.getElementById("btn-utilisateurs"),
+          section: sectionUtilisateurs,
+        },
+        {
+          button: document.getElementById("btn-materiels"),
+          section: sectionMateriels,
+        },
+        {
+          button: document.getElementById("btn-utilisateurs-mobile"),
+          section: sectionUtilisateurs,
+        },
+        {
+          button: document.getElementById("btn-materiels-mobile"),
+          section: sectionMateriels,
+        },
+        ];
+
+        function showSection(sectionToShow) {
+        [sectionUtilisateurs, sectionMateriels].forEach((sec) =>
+          sec?.classList.add("hidden")
+        );
+        sectionToShow?.classList.remove("hidden");
+
+        // Mettre à jour l'apparence active des boutons
+        btns.forEach(({ button, section }) => {
+          if (button && section) {
+          if (section === sectionToShow) {
+            button.classList.add("bg-gray-900", "text-white");
+          } else {
+            button.classList.remove("bg-gray-900", "text-white");
+          }
+          }
+        });
+
+        // Fermer le menu mobile si ouvert
+        mobileMenu?.classList.add("hidden");
+        }
+
+        // Attacher les événements aux boutons
+        btns.forEach(({ button, section }) => {
+        if (button && section) {
+          button.addEventListener("click", (e) => {
+          e.preventDefault();
+          showSection(section);
+          });
+        }
+        });
+
+        // Affichage par défaut : Matériels
+        showSection(sectionMateriels);
+      });
+      </script>
+    </nav>
+
+
+    {% comment %}
+    ------------------
+    FIN NAVBAR 
+    ------------------
+    {% endcomment %}
+
+    {% if messages %}
+    <div class="max-w-4xl mx-auto my-4 px-2" id="messages-container">
+      {% for message in messages %}
+      <div
+        class="px-4 py-3 rounded-md shadow-md mb-3 text-xs md:text-sm font-medium transition-all duration-700 opacity-100 {% if message.tags == 'success' %} bg-green-100 text-green-800 border border-green-300 {% elif message.tags == 'error' %} bg-red-100 text-red-800 border border-red-300 {% elif message.tags == 'warning' %} bg-yellow-100 text-yellow-800 border border-yellow-300 {% else %} bg-blue-100 text-blue-800 border border-blue-300 {% endif %}"
+      >
+        {{ message }}
+      </div>
+      {% endfor %}
+    </div>
+    <script>
+      setTimeout(function() {
+        const msg = document.getElementById('messages-container');
+        if (msg) {
+          msg.style.transition = "opacity 0.7s";
+          msg.style.opacity = 0;
+          setTimeout(() => { msg.style.display = 'none'; }, 700);
+        }
+      }, 2000);
+    </script>
+    {% endif %}
+    <main class="max-w-7xl mx-auto p-2 sm:p-6">
+      {% comment %} SECTION MATERIEL {% endcomment %}
+
+      <section id="section-materiels" class="hidden mt-6 sm:mt-10">
+        <div
+          class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-6"
+        >
+          <h2 class="text-2xl font-extrabold text-gray-800 tracking-tight flex items-center gap-2 w-full md:w-auto justify-center md:justify-start">
+            <svg class="w-7 h-7 text-blue-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <rect x="3" y="7" width="18" height="13" rx="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M16 3v4M8 3v4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Liste des matériels
+          </h2>
+          <div class="flex flex-col sm:flex-row gap-2 w-full md:w-auto items-center justify-center md:justify-start">
+            <form
+              method="get"
+              action="{% url 'recherche_admin' %}"
+              class="flex flex-1 max-w-md items-stretch gap-2 w-full"
+            >
+                <input
+                type="text"
+                name="q"
+                placeholder="Rechercher nom, référence, catégorie..."
+                value="{{ request.GET.q|default_if_none:'' }}"
+                class="w-full px-6 py-2 border border-gray-300 rounded-l focus:outline-none focus:ring-2 focus:ring-pink-400 text-sm"
+                style="min-width: 0px;"
+                autocomplete="off"
+                />
+              {% if request.GET.q %}
+              <a
+                href="{% url 'admin_page' %}"
+                class="bg-gray-200 text-gray-700 px-3 py-2 rounded hover:bg-gray-300 transition text-sm flex items-center"
+                title="Effacer la recherche"
+              >
+                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+                Effacer
+              </a>
+              {% endif %}
+              <button
+                type="submit"
+                class="bg-pink-500 text-white px-4 py-2 rounded-r hover:bg-pink-600 transition text-sm flex items-center"
+                title="Rechercher"
+              >
+                <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <circle cx="11" cy="11" r="8" />
+                  <path d="M21 21l-4.35-4.35" />
+                </svg>
+                Rechercher
+              </button>
+            </form>
+            <a
+              href="{% url 'add_admin_materiel' %}"
+              class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700 transition font-semibold flex items-center gap-2 text-sm w-full md:w-auto justify-center text-center whitespace-nowrap"
+              title="Ajouter un matériel"
             >
               <svg
-                class="h-7 w-7"
+                class="w-5 h-5 flex-shrink-0"
                 fill="none"
                 stroke="currentColor"
                 stroke-width="2"
@@ -87,277 +480,12 @@
                 <path
                   stroke-linecap="round"
                   stroke-linejoin="round"
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
+                  d="M12 4v16m8-8H4"
+                ></path>
               </svg>
-            </button>
+              <span class="truncate">Ajouter</span>
+            </a>
           </div>
-
-          <!-- Menu desktop -->
-          <div id="nav-menu" class="hidden md:flex items-center gap-4">
-            <a
-              href="#"
-              id="btn-materiels"
-              class="text-white hover:bg-blue-100 hover:text-blue-700 px-3 py-2 rounded-md transition text-sm"
-              >Matériels</a
-            >
-            <a
-              href="#"
-              id="btn-utilisateurs"
-              class="text-white hover:bg-blue-100 hover:text-blue-700 px-3 py-2 rounded-md transition text-sm"
-              >Utilisateurs</a
-            >
-
-            <!-- Dropdown utilisateur -->
-            <div class="relative group ml-4">
-              <button
-                tabindex="0"
-                class="flex items-center text-white cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-400 rounded transition"
-                aria-haspopup="true"
-                aria-expanded="false"
-                id="user-menu-button"
-                type="button"
-              >
-                <span class="relative inline-block">
-                  <svg
-                    class="h-8 w-8 rounded-full bg-blue-100 text-blue-600 p-1"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                  >
-                    <circle cx="12" cy="8" r="4" />
-                    <path
-                      d="M4 20c0-2.21 3.582-4 8-4s8 1.79 8 4"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
-                  <span class="absolute bottom-0 right-0 block h-2 w-2 rounded-full ring-2 ring-white bg-green-400"></span>
-                </span>
-                <span class="ml-2 flex items-center gap-2 font-semibold text-sm text-white truncate max-w-[120px]">
-                  {{ request.user.get_full_name|default:request.user.username }}
-                </span>
-                <svg
-                  class="ml-1 h-4 w-4 text-gray-300"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-              </button>
-              <div
-                class="absolute right-0 mt-2 w-48 sm:w-56 bg-white rounded-md shadow-lg py-2 opacity-0 invisible group-focus-within:opacity-100 group-focus-within:visible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50"
-                style="min-width:12rem"
-              >
-                <a
-                  href="#"
-                  class="flex items-center gap-2 px-4 py-2 text-blue-950 hover:bg-blue-50 text-sm transition"
-                >
-                  <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <circle cx="12" cy="8" r="4" />
-                    <path d="M4 20c0-2.21 3.582-4 8-4s8 1.79 8 4" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                  Mon profil
-                </a>
-                <a
-                  href="{% url 'password_change' %}"
-                  class="flex items-center gap-2 px-4 py-2 text-blue-950 hover:bg-blue-50 text-sm transition"
-                >
-                  <svg class="w-4 h-4 text-yellow-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path d="M12 15v2m0 4v-2m6-6V7a6 6 0 10-12 0v6a2 2 0 002 2h8a2 2 0 002-2z" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                  Changer mot de passe
-                </a>
-                <form method="post" action="{% url 'logout' %}">
-                  {% csrf_token %}
-                  <button
-                    type="submit"
-                    class="w-full flex items-center gap-2 px-4 py-2 text-red-600 hover:bg-red-50 text-sm transition"
-                  >
-                    <svg class="w-4 h-4 text-red-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                      <path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H7a2 2 0 01-2-2V7a2 2 0 012-2h4a2 2 0 012 2v1" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    Déconnexion
-                  </button>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Mobile menu -->
-        <div id="nav-mobile-menu" class="hidden md:hidden flex-col gap-2 mt-2">
-          <a
-            href="#"
-            id="btn-utilisateurs-mobile"
-            class="text-white bg-blue-900 hover:bg-blue-100 hover:text-blue-700 px-3 py-2 rounded-md text-sm text-center"
-            >Utilisateurs</a
-          >
-          <a
-            href="#"
-            id="btn-materiels-mobile"
-            class="text-white bg-blue-900 hover:bg-blue-100 hover:text-blue-700 px-3 py-2 rounded-md text-sm text-center"
-            >Matériels</a
-          >
-        </div>
-      </div>
-
-      <!-- Script -->
-      <script>
-        document.addEventListener("DOMContentLoaded", () => {
-          const navToggle = document.getElementById("nav-toggle");
-          const navMobileMenu = document.getElementById("nav-mobile-menu");
-
-          navToggle.addEventListener("click", () => {
-            navMobileMenu.classList.toggle("hidden");
-          });
-
-          const sectionUtilisateurs = document.getElementById(
-            "section-utilisateurs"
-          );
-          const sectionMateriels = document.getElementById("section-materiels");
-
-          const btns = [
-            {
-              button: document.getElementById("btn-utilisateurs"),
-              section: sectionUtilisateurs,
-            },
-            {
-              button: document.getElementById("btn-materiels"),
-              section: sectionMateriels,
-            },
-            {
-              button: document.getElementById("btn-utilisateurs-mobile"),
-              section: sectionUtilisateurs,
-            },
-            {
-              button: document.getElementById("btn-materiels-mobile"),
-              section: sectionMateriels,
-            },
-          ];
-
-          function showSection(sectionToShow) {
-            [sectionUtilisateurs, sectionMateriels].forEach((sec) =>
-              sec?.classList.add("hidden")
-            );
-            sectionToShow?.classList.remove("hidden");
-
-            // Mettre à jour l'apparence active des boutons
-            btns.forEach(({ button, section }) => {
-              if (button && section) {
-                if (section === sectionToShow) {
-                  button.classList.add("bg-gray-900", "text-white");
-                } else {
-                  button.classList.remove("bg-gray-900", "text-white");
-                }
-              }
-            });
-
-            // Fermer le menu mobile si ouvert
-            navMobileMenu?.classList.add("hidden");
-          }
-
-          // Attacher les événements aux boutons
-          btns.forEach(({ button, section }) => {
-            if (button && section) {
-              button.addEventListener("click", (e) => {
-                e.preventDefault();
-                showSection(section);
-              });
-            }
-          });
-
-          // Affichage par défaut : Matériels
-          showSection(sectionMateriels);
-        });
-      </script>
-    </nav>
-
-    {% if messages %}
-    <div class="max-w-4xl mx-auto my-4 px-2">
-      {% for message in messages %}
-      <div
-        class="px-4 py-3 rounded-md shadow-md mb-3 text-xs md:text-sm font-medium {% if message.tags == 'success' %} bg-green-100 text-green-800 border border-green-300 {% elif message.tags == 'error' %} bg-red-100 text-red-800 border border-red-300 {% elif message.tags == 'warning' %} bg-yellow-100 text-yellow-800 border border-yellow-300 {% else %} bg-blue-100 text-blue-800 border border-blue-300 {% endif %}"
-      >
-        {{ message }}
-      </div>
-      {% endfor %}
-    </div>
-    {% endif %}
-    <main class="max-w-7xl mx-auto p-2 sm:p-6">
-      {% comment %} SECTION MATERIEL {% endcomment %}
-
-      <section id="section-materiels" class="hidden mt-6 sm:mt-10">
-        <div
-          class="flex flex-col md:flex-row items-center justify-between mb-6 gap-4"
-        >
-          <h2 class="text-xl md:text-2xl font-bold text-gray-800 mb-2 md:mb-0">
-            Liste des matériels
-          </h2>
-          <form
-            method="get"
-            action="{% url 'recherche_admin' %}"
-            class="flex flex-col sm:flex-row flex-1 max-w-md items-center gap-2 w-full"
-          >
-            <input
-              type="text"
-              name="q"
-              placeholder="Rechercher par nom, référence, catégorie..."
-              value="{{ request.GET.q|default_if_none:'' }}"
-              class="w-full px-4 py-2 border border-gray-300 rounded-l focus:outline-none focus:ring-2 focus:ring-pink-400 text-xs md:text-sm"
-              autocomplete="off"
-            />
-            <div class="flex flex-row w-full sm:w-auto gap-2">
-              {% if request.GET.q %}
-              <a
-                href="{% url 'admin_page' %}"
-                class="bg-gray-200 text-gray-700 px-3 py-2 rounded hover:bg-gray-300 transition text-xs md:text-sm"
-                >Effacer</a
-              >
-              {% endif %}
-              <button
-                type="submit"
-                class="bg-pink-500 text-white px-4 py-2 rounded-r hover:bg-pink-600 transition text-xs md:text-sm"
-              >
-                <svg
-                  class="w-5 h-5 inline"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  viewBox="0 0 24 24"
-                >
-                  <circle cx="11" cy="11" r="8" />
-                  <path d="M21 21l-4.35-4.35" />
-                </svg>
-              </button>
-            </div>
-          </form>
-          <a
-            href="{% url 'add_admin_materiel' %}"
-            class="bg-blue-600 text-white px-4 md:px-5 py-2 rounded-lg shadow hover:bg-blue-700 transition font-semibold flex items-center gap-2 text-xs md:text-sm w-full md:w-auto justify-center"
-          >
-            <svg
-              class="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M12 4v16m8-8H4"
-              ></path>
-            </svg>
-            Ajouter un matériel
-          </a>
         </div>
         <div
           class="overflow-x-auto bg-white shadow-lg rounded-xl border border-gray-200"
@@ -464,9 +592,7 @@
           {% else %}
           <p class="p-6 text-gray-500 text-center">Aucun matériel trouvé.</p>
           {% endif %}
-        </div>
-
-        <div
+          <div
           class="flex justify-end px-2 md:px-6 py-4 bg-gray-50 border-t border-gray-200"
         >
           <a
@@ -504,6 +630,9 @@
             Exporter CSV
           </a>
         </div>
+        </div>
+
+        
         {% if request.GET.q %}
         <div class="mt-4 text-center text-gray-500 text-xs md:text-sm">
           Résultats pour :
@@ -519,8 +648,12 @@
         <div
           class="flex flex-col sm:flex-row items-center justify-between mb-6 gap-4"
         >
-          <h2 class="text-xl md:text-2xl font-bold text-gray-800">
-            Liste des utilisateurs
+          <h2 class="text-2xl font-extrabold text-gray-800 tracking-tight flex items-center gap-2 w-full md:w-auto justify-center md:justify-start">
+            <svg class="w-7 h-7 text-blue-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <rect x="3" y="7" width="18" height="13" rx="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M16 3v4M8 3v4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Liste des matériels
           </h2>
           <a
             href="{% url 'add_user' %}"
