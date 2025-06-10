@@ -1,0 +1,103 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Register</title>
+    {% tailwind_css %}
+  </head>
+  <body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white p-8 rounded shadow-md w-full max-w-md mt-8">
+      <h2 class="text-2xl font-bold mb-6 text-center">Modifier le Matériel</h2>
+
+      <form
+        method="post"
+        class="space-y-4"
+        action="{% url 'edit_view' materiel.id %}"
+      >
+        {% csrf_token %}
+        <div>
+          <label for="name" class="block text-gray-700 font-semibold mb-2"
+            >Nom</label
+          >
+          <input
+            type="text"
+            id="name"
+            name="name"
+            value="{{ materiel.name }}"
+            required
+            class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <div>
+          <label for="reference" class="block text-gray-700 font-semibold mb-2"
+            >Référence</label
+          >
+          <input
+            type="text"
+            id="reference"
+            name="reference"
+            value="{{ materiel.reference }}"
+            required
+            class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <div>
+          <label for="category" class="block text-gray-700 font-semibold mb-2"
+            >Catégorie</label
+          >
+          <input
+            type="text"
+            id="category"
+            name="category"
+            value="{{ materiel.category }}"
+            required
+            class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <div class="flex items-center">
+          <input
+              type="checkbox"
+              id="stat"
+              name="stat"
+              class="mr-2"
+              value="1"
+              {% if materiel.stat == True or materiel.stat == '1' %}checked{% endif %}
+            />
+
+          <label for="stat" class="text-gray-700 font-semibold"
+            >Disponible</label
+          >
+        </div>
+        <div class="flex items-center">
+          <input
+            type="checkbox"
+            id="repere"
+            name="repere"
+            class="mr-2"
+            value="1"
+            {%
+            if
+            materiel.repere == True or materiel.repere == '1'
+            %}checked{%
+            endif
+            %}
+          />
+          <label for="repere" class="text-gray-700 font-semibold">Repéré</label>
+        </div>
+        <button
+          type="submit"
+          class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 transition"
+        >
+          Modifier Matériel
+        </button>
+      </form>
+      <a
+        href="{% url 'user_page' %}"
+        class="inline-block mt-4 w-full text-center bg-gray-500 text-white py-2 rounded hover:bg-gray-500 transition"
+      >
+        Retour
+      </a>
+    </div>
+  </body>
+</html>

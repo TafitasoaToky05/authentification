@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+</head>
+<body>
+    <h2>Bienvenue {{ request.user.username }}</h2>
+    <p>Email : {{ request.user.email }}</p>
+    <p>Téléphone : {{ request.user.phone_number }}</p>
+
+    <a href="{% url 'logout' %}">Se déconnecter</a>
+</body>
+</html>

@@ -1,0 +1,61 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <title>{% block title %}Django Tailwind{% endblock %}</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        {% tailwind_css %}
+    </head>
+    <body class="bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 min-h-screen flex flex-col items-center justify-center">
+        <div class="w-full max-w-md bg-white rounded-lg shadow-lg p-8 mt-10">
+            <h1 class="text-2xl font-bold text-gray-800 mb-6 text-center">
+                Détails du Matériel
+            </h1>
+            <div class="space-y-4">
+                <div class="flex justify-between">
+                    <span class="font-semibold text-purple-700">Nom :</span>
+                    <span class="text-blue-900">{{ materiel.name }}</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="font-semibold text-purple-700">Référence :</span>
+                    <span class="text-blue-900">{{ materiel.reference }}</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="font-semibold text-purple-700">Catégorie :</span>
+                    <span class="text-blue-900">{{ materiel.category }}</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="font-semibold text-gray-700">Statut :</span>
+                    <span>
+                        {% if materiel.stat %}
+                        <span class="inline-block px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs">Disponible</span>
+                        {% else %}
+                        <span class="inline-block px-2 py-1 bg-red-100 text-red-700 rounded-full text-xs">Indisponible</span>
+                        {% endif %}
+                    </span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="font-semibold text-gray-700">Repéré :</span>
+                    <span>
+                        {% if materiel.repere %}
+                        <span class="inline-block px-2 py-1 bg-blue-100 text-blue-700 rounded-full text-xs">Oui</span>
+                        {% else %}
+                        <span class="inline-block px-2 py-1 bg-gray-200 text-gray-700 rounded-full text-xs">Non</span>
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+            <div class="mt-8 flex justify-center space-x-4">
+                <a
+                    href="{% url 'user_page' %}"
+                    class="inline-block px-4 py-2 bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-gray-900 rounded shadow hover:from-pink-600 hover:to-blue-600 transition font-semibold"
+                >Retour à la liste</a>
+                <a
+                    href="{% url 'edit_view' materiel.id %}"
+                    class="inline-block px-4 py-2 bg-yellow-400 text-gray-900 rounded shadow hover:bg-yellow-500 transition font-semibold"
+                >Modifier</a>
+            </div>
+        </div>
+    </body>
+</html>

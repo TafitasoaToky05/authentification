@@ -1,0 +1,65 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    {% tailwind_css %}
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="w-full max-w-md bg-white rounded-lg shadow-md p-8">
+        <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Inscription</h2>
+        <div>
+        {% for message in messages %}
+
+        <p style="color: red;">{{message}}</p>
+
+        {% endfor %}
+      </div>
+        <form method="post" class="space-y-5" action="{% url 'add_user' %}">
+
+            {% csrf_token %}
+            <div>
+                <label for="name" class="block text-gray-700">Nom d'utilisateur</label>
+                <input type="text" name="username" id="username" required
+                    class="mt-1 w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <div>
+                <label for="name" class="block text-gray-700">Nom</label>
+                <input type="text" name="firstname" id="name" required
+                    class="mt-1 w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <div>
+                <label for="lastname" class="block text-gray-700">Prenom</label>
+                <input type="text" name="lastname" id="lastname" required
+                    class="mt-1 w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <div>
+                <label for="email" class="block text-gray-700">E-mail</label>
+                <input type="email" name="email" id="email" required
+                    class="mt-1 w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <div>
+                <label for="password1" class="block text-gray-700">Mot de passe</label>
+                <input type="password" name="password1" id="password1" required
+                    class="mt-1 w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <div>
+                <label for="password2" class="block text-gray-700">Confirmation</label>
+                <input type="password" name="password2" id="password2" required
+                    class="mt-1 w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <button type="submit"
+                class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">Register</button>
+        </form>
+        <div class="mt-6 flex justify-between items-center">
+            <a href="{% url 'admin_page' %}" class="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium transition">
+            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+            </svg>
+            Retour
+            </a>
+        </div>
+    </div>
+</body>
+</html>
